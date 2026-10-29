@@ -976,6 +976,105 @@ form.addEventListener("submit", async function (event) {
         };
       });
     }
+    // ==========================================
+// MENGHUBUNGKAN 5 UNGGAHAN WHATSAPP
+// ==========================================
+
+function siapkanStatusBukti(nomor) {
+  const input = document.getElementById("buktiWA" + nomor);
+
+  let status = document.getElementById(
+    "statusBuktiWA" + nomor
+  );
+
+  if (!status) {
+    status = document.createElement("div");
+    status.id = "statusBuktiWA" + nomor;
+    status.className = "help-text";
+    status.setAttribute("aria-live", "polite");
+
+    input.insertAdjacentElement("afterend", status);
+  }
+
+  return status;
+}
+
+async function prosesBuktiWhatsApp(nomor, file) {
+  const status = siapkanStatusBukti(nomor);
+
+  if (!file) {
+    return;
+  }
+
+  status.textContent = "Memproses dan menyimpan gambar...";
+
+  try {
+    const hasilKompresi = await kompresGambar(file);
+
+    await simpanBuktiWhatsApp(nomor, hasilKompresi);
+
+    status.textContent =
+      "✓ Bukti " + nomor + " tersimpan sementara (" +
+      (hasilKompresi.size / 1024).toFixed(2) +
+      " KB).";
+
+    status.style.color = "#18794e";
+  } catch (error) {
+    console.error(
+      "Gagal memproses bukti WhatsApp " + nomor + ":",
+      error
+    );
+
+    status.textContent =
+      "Gagal memproses gambar. " +
+      (error.message || "Silakan pilih gambar lain.");
+
+    status.style.color = "#b42318";
+  }
+}
+
+// Pasang pemroses pada setiap kolom unggahan.
+for (let nomor = 1; nomor <= 5; nomor++) {
+  const input = document.getElementById("buktiWA" + nomor);
+
+  siapkanStatusBukti(nomor);
+
+  input.addEventListener("change", async function () {
+    const file = input.files && input.files[0];
+
+    if (file) {
+      await prosesBuktiWhatsApp(nomor, file);
+    }
+  });
+}
+
+// Tampilkan kembali status bukti yang sudah tersimpan.
+async function pulihkanStatusBuktiWhatsApp() {
+  const draf = await ambilDraf();
+
+  if (!draf || !Array.isArray(draf.buktiWhatsApp)) {
+    return;
+  }
+
+  for (let nomor = 1; nomor <= 5; nomor++) {
+    const bukti = draf.buktiWhatsApp[nomor - 1];
+
+    if (bukti && bukti.blob) {
+      const status = siapkanStatusBukti(nomor);
+
+      status.textContent =
+        "✓ Bukti " + nomor + " sudah tersimpan sebelumnya (" +
+        (bukti.blob.size / 1024).toFixed(2) +
+        " KB).";
+
+      status.style.color = "#18794e";
+    }
+  }
+}
+
+pulihkanStatusBuktiWhatsApp().catch(function (error) {
+  console.error("Gagal memulihkan status bukti:", error);
+});
   </script>
 </body>
 </html>
