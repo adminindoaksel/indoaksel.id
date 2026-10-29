@@ -561,6 +561,103 @@
         });
       });
 
+
+// Menyimpan perubahan data diri secara otomatis.
+let timerSimpanDataDiri;
+
+async function simpanDataDiriOtomatis() {
+  const sumberTerpilih = document.querySelector(
+    'input[name="sumberInformasi"]:checked'
+  );
+
+  const pekerjaan = document.getElementById("pekerjaan");
+  const pekerjaanLainnya = document.getElementById("pekerjaanLainnya");
+
+  const sumberLainnya = document.getElementById("sumberLainnya");
+
+  const dataDiri = {
+    nama: document.getElementById("nama").value.trim(),
+
+    whatsapp: document.getElementById("whatsapp").value.trim(),
+
+    provinsi: document.getElementById("provinsi").value.trim(),
+
+    kabupaten: document.getElementById("kabupaten").value.trim(),
+
+    pekerjaan: pekerjaan.value,
+
+    pekerjaanLainnya:
+      pekerjaan.value === "Lainnya"
+        ? pekerjaanLainnya.value.trim()
+        : "",
+
+    sumberInformasi: sumberTerpilih
+      ? sumberTerpilih.value
+      : "",
+
+    sumberLainnya:
+      sumberTerpilih &&
+      sumberTerpilih.value === "Sumber Lainnya"
+        ? sumberLainnya.value.trim()
+        : ""
+  };
+
+  await simpanDraf(dataDiri);
+}
+
+// Menunda penyimpanan sebentar agar tidak menyimpan
+// setiap kali peserta menekan satu tombol keyboard.
+function jadwalkanSimpanDataDiri() {
+  clearTimeout(timerSimpanDataDiri);
+
+  timerSimpanDataDiri = setTimeout(async function () {
+    try {
+      await simpanDataDiriOtomatis();
+    } catch (error) {
+      console.error(
+        "Gagal menyimpan perubahan data diri:",
+        error
+      );
+    }
+  }, 500);
+}
+
+// Pantau perubahan pada seluruh kolom data diri.
+[
+  "nama",
+  "whatsapp",
+  "provinsi",
+  "kabupaten",
+  "pekerjaan",
+  "pekerjaanLainnya",
+  "sumberLainnya"
+].forEach(function (id) {
+  const elemen = document.getElementById(id);
+
+  if (elemen) {
+    elemen.addEventListener(
+      "input",
+      jadwalkanSimpanDataDiri
+    );
+
+    elemen.addEventListener(
+      "change",
+      jadwalkanSimpanDataDiri
+    );
+  }
+});
+
+// Pantau perubahan pilihan sumber informasi.
+document
+  .querySelectorAll('input[name="sumberInformasi"]')
+  .forEach(function (radio) {
+    radio.addEventListener(
+      "change",
+      jadwalkanSimpanDataDiri
+    );
+  });
+
+    
 form.addEventListener("submit", async function (event) {
   event.preventDefault();
 
