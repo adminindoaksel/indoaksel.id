@@ -817,6 +817,165 @@ form.addEventListener("submit", async function (event) {
         "Data baru belum tentu tersimpan dengan aman."
       );
     });
+        // ==========================================
+    // KOMPRESI GAMBAR DI BROWSER
+    // Target ukuran maksimal 5 KB per gambar
+    // ==========================================
+
+    function muatGambar(file) {
+      return new Promise(function (resolve, reject) {
+        const url = URL.createObjectURL(file);
+        const gambar = new Image();
+
+        gambar.onload = function () {
+          URL.revokeObjectURL(url);
+          resolve(gambar);
+        };
+
+        gambar.onerror = function () {
+          URL.revokeObjectURL(url);
+          reject(new Error("Gambar tidak dapat dibaca."));
+        };
+
+        gambar.src = url;
+      });
+    }
+
+    function canvasMenjadiBlob(canvas, kualitas) {
+      return new Promise(function (resolve, reject) {
+        canvas.toBlob(
+          function (blob) {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error("Gagal mengompresi gambar."));
+            }
+          },
+          "image/jpeg",
+          kualitas
+        );
+      });
+    }
+
+    async function kompresGambar(file, batasByte = 5 * 1024) {
+      if (!(file instanceof File)) {
+        throw new Error("Berkas gambar tidak valid.");
+      }
+
+      if (!["image/jpeg", "image/jpg"].includes(file.type)) {
+        throw new Error("Gambar harus berformat JPG atau JPEG.");
+      }
+
+      const gambar = await muatGambar(file);
+
+      let lebar = gambar.naturalWidth;
+      let tinggi = gambar.naturalHeight;
+
+      const batasDimensi = 1200;
+
+      if (lebar > batasDimensi || tinggi > batasDimensi) {
+        const skala = Math.min(
+          batasDimensi / lebar,
+          batasDimensi / tinggi
+        );
+
+        lebar = Math.max(1, Math.round(lebar * skala));
+        tinggi = Math.max(1, Math.round(tinggi * skala));
+      }
+
+      const canvas = document.createElement("canvas");
+      const konteks = canvas.getContext("2d");
+
+      if (!konteks) {
+        throw new Error("Browser tidak mendukung pemrosesan gambar.");
+      }
+
+      for (let percobaan = 0; percobaan < 12; percobaan++) {
+        canvas.width = lebar;
+        canvas.height = tinggi;
+
+        konteks.drawImage(gambar, 0, 0, lebar, tinggi);
+
+        const kualitas = Math.max(
+          0.1,
+          0.7 - percobaan * 0.06
+        );
+
+        const hasil = await canvasMenjadiBlob(canvas, kualitas);
+
+        if (hasil.size <= batasByte) {
+          return hasil;
+        }
+
+        lebar = Math.max(1, Math.floor(lebar * 0.75));
+        tinggi = Math.max(1, Math.floor(tinggi * 0.75));
+      }
+
+      throw new Error(
+        "Ukuran gambar belum dapat mencapai 5 KB. " +
+        "Silakan gunakan gambar yang lebih kecil."
+      );
+    }
+
+    // ==========================================
+    // MENYIMPAN BUKTI WHATSAPP KE DRAF
+    // ==========================================
+
+    async function simpanBuktiWhatsApp(nomorBukti, blob) {
+      const db = await bukaDatabase();
+
+      return new Promise(function (resolve, reject) {
+        const transaksi = db.transaction(
+          NAMA_STORE,
+          "readwrite"
+        );
+
+        const store = transaksi.objectStore(NAMA_STORE);
+        const request = store.get(ID_DRAF);
+
+        request.onsuccess = function () {
+          const draf = request.result || {
+            id: ID_DRAF,
+            dataDiri: {},
+            buktiWhatsApp: [],
+            buktiDonasi: null,
+            pernyataanTidakDonasi: null,
+            tahapTerakhir: "data-diri"
+          };
+
+          const bukti = Array.isArray(draf.buktiWhatsApp)
+            ? [...draf.buktiWhatsApp]
+            : [];
+
+          bukti[nomorBukti - 1] = {
+            nomor: nomorBukti,
+            blob: blob,
+            tipe: "image/jpeg",
+            ukuran: blob.size
+          };
+
+          draf.buktiWhatsApp = bukti;
+          draf.diperbaruiPada = new Date().toISOString();
+
+          store.put(draf);
+        };
+
+        transaksi.oncomplete = function () {
+          db.close();
+          resolve();
+        };
+
+        transaksi.onerror = function () {
+          db.close();
+          reject(transaksi.error);
+        };
+
+        transaksi.onabort = function () {
+          db.close();
+          reject(transaksi.error);
+        };
+      });
+    }
   </script>
 </body>
 </html>
