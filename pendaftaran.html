@@ -567,7 +567,13 @@ form.addEventListener("submit", async function (event) {
   pesanError.style.display = "none";
   pesanError.textContent = "";
 
-  // Periksa kelengkapan kolom wajib.
+  // File yang tersimpan di IndexedDB tidak harus
+  // dipilih ulang setelah halaman dimuat kembali.
+  for (let nomor = 1; nomor <= 5; nomor++) {
+    document.getElementById("buktiWA" + nomor).required = false;
+  }
+
+  // Periksa kelengkapan data diri.
   if (!form.checkValidity()) {
     form.reportValidity();
     return;
@@ -589,12 +595,11 @@ form.addEventListener("submit", async function (event) {
     return;
   }
 
-  // Ambil sumber informasi yang dipilih.
   const sumberTerpilih = document.querySelector(
     'input[name="sumberInformasi"]:checked'
   );
 
-  // Siapkan data diri peserta.
+  // Kumpulkan data diri peserta.
   const dataDiri = {
     nama: document.getElementById("nama").value.trim(),
 
@@ -622,21 +627,57 @@ form.addEventListener("submit", async function (event) {
         : ""
   };
 
-  // Simpan draf ke IndexedDB.
   try {
+    // Simpan atau perbarui data diri tanpa menghapus
+    // bukti gambar yang sudah tersimpan.
     await simpanDraf(dataDiri);
 
+    // Periksa bukti yang benar-benar ada di IndexedDB.
+    const draf = await ambilDraf();
+
+    const bukti = draf && Array.isArray(draf.buktiWhatsApp)
+      ? draf.buktiWhatsApp
+      : [];
+
+    const buktiBelumAda = [];
+
+    for (let nomor = 1; nomor <= 5; nomor++) {
+      const item = bukti[nomor - 1];
+
+      if (
+        !item ||
+        !item.blob ||
+        !(item.blob instanceof Blob) ||
+        item.blob.size === 0
+      ) {
+        buktiBelumAda.push(nomor);
+      }
+    }
+
+    if (buktiBelumAda.length > 0) {
+      tampilkanError(
+        "Data diri sudah tersimpan. Bukti WhatsApp " +
+        buktiBelumAda.join(", ") +
+        " belum tersimpan. Silakan unggah bukti tersebut " +
+        "sebelum melanjutkan."
+      );
+      return;
+    }
+
+    // Tahap ini hanya menguji penyimpanan lokal.
+    // Belum berpindah halaman dan belum menghubungi backend.
     alert(
-      "Data diri berhasil disimpan sementara di browser.\n\n" +
-      "Data belum dikirim ke server. Kamu dapat melanjutkan " +
-      "pengembangan tahap berikutnya."
+      "Data diri dan kelima bukti WhatsApp sudah tersimpan " +
+      "di browser.\n\n" +
+      "Belum ada data yang dikirim ke server."
     );
+
   } catch (error) {
-    console.error("Gagal menyimpan draf:", error);
+    console.error("Gagal memeriksa draf:", error);
 
     tampilkanError(
-      "Draf gagal disimpan. Periksa dukungan penyimpanan browser " +
-      "dan coba kembali. Jangan tutup halaman sebelum berhasil."
+      "Browser gagal membaca atau menyimpan draf. " +
+      "Periksa penyimpanan browser dan coba kembali."
     );
   }
 });
