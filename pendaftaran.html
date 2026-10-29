@@ -55,6 +55,7 @@
     .progress-info {
       display: flex;
       justify-content: space-between;
+      gap: 12px;
       font-size: 14px;
       margin-bottom: 8px;
     }
@@ -75,7 +76,7 @@
     }
 
     .section-title {
-      font-size: 19px;
+      font-size: 20px;
       margin-bottom: 8px;
     }
 
@@ -85,6 +86,64 @@
       margin-bottom: 24px;
     }
 
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label,
+    .group-label {
+      display: block;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 9px;
+    }
+
+    .required {
+      color: #d93025;
+    }
+
+    input[type="text"],
+    input[type="tel"],
+    select {
+      display: block;
+      width: 100%;
+      min-height: 46px;
+      padding: 11px 12px;
+      border: 1px solid #cbd3df;
+      border-radius: 7px;
+      background: #fff;
+      color: #222;
+      font-size: 15px;
+    }
+
+    input:focus,
+    select:focus {
+      outline: 2px solid #b9d5ff;
+      border-color: #1769d2;
+    }
+
+    .help-text {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-top: 7px;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin: 13px 0;
+      font-weight: normal;
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .radio-option input {
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
     .notice {
       padding: 14px;
       border-radius: 8px;
@@ -92,6 +151,7 @@
       color: #174b88;
       line-height: 1.6;
       font-size: 14px;
+      margin-bottom: 24px;
     }
 
     .button-row {
@@ -110,16 +170,34 @@
       font-size: 15px;
       font-weight: bold;
       cursor: pointer;
-      text-decoration: none;
     }
 
     .button:hover {
       background: #1054ad;
     }
 
+    .error-message {
+      display: none;
+      color: #b42318;
+      background: #fff0ef;
+      border-radius: 7px;
+      padding: 12px;
+      margin-top: 18px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
     @media (max-width: 480px) {
+      body {
+        padding: 14px 10px;
+      }
+
       .card {
-        padding: 20px;
+        padding: 20px 16px;
       }
 
       h1 {
@@ -162,24 +240,277 @@
       <h2 class="section-title">Data Diri</h2>
 
       <p class="section-description">
-        Silakan lengkapi data diri dan persyaratan pendaftaran
-        untuk mengikuti Pelatihan Nasional INDOAKSEL.
+        Lengkapi data diri berikut dengan benar sebelum melanjutkan
+        proses pendaftaran Pelatihan Nasional INDOAKSEL.
       </p>
 
       <div class="notice">
         <strong>Petunjuk:</strong><br>
-        Lengkapi seluruh data dan unggah bukti yang diminta.
-        Draf pendaftaran akan disimpan sementara di browser
-        selama proses pendaftaran.
+        Isilah semua kolom wajib yang ditandai dengan
+        tanda <span class="required">*</span>.
       </div>
 
-      <div class="button-row">
-        <button type="button" class="button">
-          Berikutnya →
-        </button>
-      </div>
+      <form id="formDataDiri" novalidate>
 
+        <div class="form-group">
+          <label for="nama">
+            Nama Lengkap dan Gelar <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="nama"
+            name="nama"
+            autocomplete="name"
+            placeholder="Masukkan nama lengkap dan gelar"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="whatsapp">
+            Nomor WhatsApp <span class="required">*</span>
+          </label>
+          <input
+            type="tel"
+            id="whatsapp"
+            name="whatsapp"
+            inputmode="tel"
+            autocomplete="tel"
+            placeholder="Contoh: 081234567890"
+            required
+          >
+          <div class="help-text">
+            Gunakan nomor WhatsApp yang aktif.
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="provinsi">
+            Asal Provinsi <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="provinsi"
+            name="provinsi"
+            autocomplete="address-level1"
+            placeholder="Masukkan nama provinsi"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="kabupaten">
+            Asal Kabupaten/Kota <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="kabupaten"
+            name="kabupaten"
+            autocomplete="address-level2"
+            placeholder="Masukkan nama kabupaten/kota"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="pekerjaan">
+            Pekerjaan <span class="required">*</span>
+          </label>
+          <select id="pekerjaan" name="pekerjaan" required>
+            <option value="">-- Pilih pekerjaan --</option>
+            <option value="ASN">ASN</option>
+            <option value="Guru">Guru</option>
+            <option value="Dosen">Dosen</option>
+            <option value="Mahasiswa">Mahasiswa</option>
+            <option value="Pelajar">Pelajar</option>
+            <option value="Pengusaha">Pengusaha</option>
+            <option value="Karyawan Swasta">Karyawan Swasta</option>
+            <option value="Pencari Kerja">Pencari Kerja</option>
+            <option value="Masyarakat Umum">Masyarakat Umum</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="pekerjaanLainnyaGroup" hidden>
+          <label for="pekerjaanLainnya">
+            Sebutkan Pekerjaan <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="pekerjaanLainnya"
+            name="pekerjaanLainnya"
+            placeholder="Tuliskan pekerjaan Anda"
+            disabled
+          >
+        </div>
+
+        <div class="form-group">
+          <span class="group-label">
+            Dari mana Anda mendapatkan informasi Pelatihan Nasional ini?
+            <span class="required">*</span>
+          </span>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="WhatsApp" required>
+            WhatsApp
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="Telegram">
+            Telegram
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="Instagram">
+            Instagram
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="TikTok">
+            TikTok
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="Teman">
+            Teman
+          </label>
+
+          <label class="radio-option">
+            <input
+              type="radio"
+              name="sumberInformasi"
+              value="Instansi atau Tempat Kerja"
+            >
+            Instansi atau Tempat Kerja
+          </label>
+
+          <label class="radio-option">
+            <input
+              type="radio"
+              name="sumberInformasi"
+              value="Sekolah atau Perguruan Tinggi"
+            >
+            Sekolah atau Perguruan Tinggi
+          </label>
+
+          <label class="radio-option">
+            <input type="radio" name="sumberInformasi" value="Sumber Lainnya">
+            Sumber Lainnya
+          </label>
+        </div>
+
+        <div class="form-group" id="sumberLainnyaGroup" hidden>
+          <label for="sumberLainnya">
+            Sebutkan Sumber Informasi <span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="sumberLainnya"
+            name="sumberLainnya"
+            placeholder="Tuliskan sumber informasi"
+            disabled
+          >
+        </div>
+
+        <div class="notice">
+          Setelah data diri selesai, tahap berikutnya akan meminta
+          lima bukti berbagi informasi melalui WhatsApp.
+        </div>
+
+        <div id="pesanError" class="error-message" role="alert"></div>
+
+        <div class="button-row">
+          <button type="submit" class="button">
+            Berikutnya →
+          </button>
+        </div>
+
+      </form>
     </div>
   </main>
+
+  <script>
+    const form = document.getElementById("formDataDiri");
+
+    const pekerjaan = document.getElementById("pekerjaan");
+    const pekerjaanLainnyaGroup =
+      document.getElementById("pekerjaanLainnyaGroup");
+    const pekerjaanLainnya =
+      document.getElementById("pekerjaanLainnya");
+
+    const sumberLainnyaGroup =
+      document.getElementById("sumberLainnyaGroup");
+    const sumberLainnya =
+      document.getElementById("sumberLainnya");
+
+    const pesanError = document.getElementById("pesanError");
+
+    pekerjaan.addEventListener("change", function () {
+      const pilihLainnya = pekerjaan.value === "Lainnya";
+
+      pekerjaanLainnyaGroup.hidden = !pilihLainnya;
+      pekerjaanLainnya.disabled = !pilihLainnya;
+      pekerjaanLainnya.required = pilihLainnya;
+
+      if (!pilihLainnya) {
+        pekerjaanLainnya.value = "";
+      }
+    });
+
+    document
+      .querySelectorAll('input[name="sumberInformasi"]')
+      .forEach(function (radio) {
+        radio.addEventListener("change", function () {
+          const pilihLainnya =
+            document.querySelector(
+              'input[name="sumberInformasi"]:checked'
+            )?.value === "Sumber Lainnya";
+
+          sumberLainnyaGroup.hidden = !pilihLainnya;
+          sumberLainnya.disabled = !pilihLainnya;
+          sumberLainnya.required = pilihLainnya;
+
+          if (!pilihLainnya) {
+            sumberLainnya.value = "";
+          }
+        });
+      });
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      pesanError.style.display = "none";
+      pesanError.textContent = "";
+
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const nomorWA =
+        document.getElementById("whatsapp").value.trim();
+
+      const nomorBersih = nomorWA.replace(/[\s()-]/g, "");
+
+      if (!/^\+?[0-9]{8,15}$/.test(nomorBersih)) {
+        tampilkanError(
+          "Periksa kembali nomor WhatsApp. Masukkan 8–15 digit angka, " +
+          "dengan tanda + di depan jika menggunakan kode negara."
+        );
+        return;
+      }
+
+      tampilkanError(
+        "Validasi data diri berhasil. Penyimpanan draf IndexedDB " +
+        "dan perpindahan ke tahap berikutnya akan kita aktifkan " +
+        "pada langkah selanjutnya."
+      );
+    });
+
+    function tampilkanError(pesan) {
+      pesanError.textContent = pesan;
+      pesanError.style.display = "block";
+    }
+  </script>
 </body>
 </html>
