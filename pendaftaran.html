@@ -476,36 +476,85 @@
         });
       });
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
 
-      pesanError.style.display = "none";
-      pesanError.textContent = "";
+  pesanError.style.display = "none";
+  pesanError.textContent = "";
 
-      if (!form.checkValidity()) {
-        form.reportValidity();
-        return;
-      }
+  // Periksa kelengkapan kolom wajib.
+  if (!form.checkValidity()) {
+    form.reportValidity();
+    return;
+  }
 
-      const nomorWA =
-        document.getElementById("whatsapp").value.trim();
+  // Periksa format nomor WhatsApp.
+  const nomorWA = document
+    .getElementById("whatsapp")
+    .value
+    .trim();
 
-      const nomorBersih = nomorWA.replace(/[\s()-]/g, "");
+  const nomorBersih = nomorWA.replace(/[\s()-]/g, "");
 
-      if (!/^\+?[0-9]{8,15}$/.test(nomorBersih)) {
-        tampilkanError(
-          "Periksa kembali nomor WhatsApp. Masukkan 8–15 digit angka, " +
-          "dengan tanda + di depan jika menggunakan kode negara."
-        );
-        return;
-      }
+  if (!/^\+?[0-9]{8,15}$/.test(nomorBersih)) {
+    tampilkanError(
+      "Periksa kembali nomor WhatsApp. Masukkan 8–15 digit angka, " +
+      "dengan tanda + di depan jika menggunakan kode negara."
+    );
+    return;
+  }
 
-      tampilkanError(
-        "Validasi data diri berhasil. Penyimpanan draf IndexedDB " +
-        "dan perpindahan ke tahap berikutnya akan kita aktifkan " +
-        "pada langkah selanjutnya."
-      );
-    });
+  // Ambil sumber informasi yang dipilih.
+  const sumberTerpilih = document.querySelector(
+    'input[name="sumberInformasi"]:checked'
+  );
+
+  // Siapkan data diri peserta.
+  const dataDiri = {
+    nama: document.getElementById("nama").value.trim(),
+
+    whatsapp: nomorWA,
+
+    provinsi: document.getElementById("provinsi").value.trim(),
+
+    kabupaten: document.getElementById("kabupaten").value.trim(),
+
+    pekerjaan: pekerjaan.value,
+
+    pekerjaanLainnya:
+      pekerjaan.value === "Lainnya"
+        ? pekerjaanLainnya.value.trim()
+        : "",
+
+    sumberInformasi: sumberTerpilih
+      ? sumberTerpilih.value
+      : "",
+
+    sumberLainnya:
+      sumberTerpilih &&
+      sumberTerpilih.value === "Sumber Lainnya"
+        ? sumberLainnya.value.trim()
+        : ""
+  };
+
+  // Simpan draf ke IndexedDB.
+  try {
+    await simpanDraf(dataDiri);
+
+    alert(
+      "Data diri berhasil disimpan sementara di browser.\n\n" +
+      "Data belum dikirim ke server. Kamu dapat melanjutkan " +
+      "pengembangan tahap berikutnya."
+    );
+  } catch (error) {
+    console.error("Gagal menyimpan draf:", error);
+
+    tampilkanError(
+      "Draf gagal disimpan. Periksa dukungan penyimpanan browser " +
+      "dan coba kembali. Jangan tutup halaman sebelum berhasil."
+    );
+  }
+});
 
     function tampilkanError(pesan) {
       pesanError.textContent = pesan;
