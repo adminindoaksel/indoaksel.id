@@ -511,6 +511,178 @@
       pesanError.textContent = pesan;
       pesanError.style.display = "block";
     }
+        // ==========================================
+    // PENYIMPANAN DRAF PESERTA DENGAN INDEXEDDB
+    // ==========================================
+
+    const NAMA_DATABASE = "indoaksel_registration";
+    const VERSI_DATABASE = 1;
+    const NAMA_STORE = "drafts";
+    const ID_DRAF = "registrationDraft";
+
+    function bukaDatabase() {
+      return new Promise(function (resolve, reject) {
+        const request = indexedDB.open(
+          NAMA_DATABASE,
+          VERSI_DATABASE
+        );
+
+        request.onupgradeneeded = function (event) {
+          const db = event.target.result;
+
+          if (!db.objectStoreNames.contains(NAMA_STORE)) {
+            db.createObjectStore(NAMA_STORE, {
+              keyPath: "id"
+            });
+          }
+        };
+
+        request.onsuccess = function () {
+          resolve(request.result);
+        };
+
+        request.onerror = function () {
+          reject(request.error);
+        };
+      });
+    }
+
+    async function simpanDraf(dataBaru) {
+      const db = await bukaDatabase();
+
+      return new Promise(function (resolve, reject) {
+        const transaksi = db.transaction(
+          NAMA_STORE,
+          "readwrite"
+        );
+
+        const store = transaksi.objectStore(NAMA_STORE);
+        const request = store.get(ID_DRAF);
+
+        request.onsuccess = function () {
+          const drafLama = request.result || {
+            id: ID_DRAF,
+            dataDiri: {},
+            buktiWhatsApp: [],
+            buktiDonasi: null,
+            pernyataanTidakDonasi: null,
+            tahapTerakhir: "data-diri"
+          };
+
+          const drafBaru = {
+            ...drafLama,
+            dataDiri: {
+              ...drafLama.dataDiri,
+              ...dataBaru
+            },
+            tahapTerakhir: "data-diri",
+            diperbaruiPada: new Date().toISOString()
+          };
+
+          store.put(drafBaru);
+        };
+
+        transaksi.oncomplete = function () {
+          db.close();
+          resolve();
+        };
+
+        transaksi.onerror = function () {
+          db.close();
+          reject(transaksi.error);
+        };
+
+        transaksi.onabort = function () {
+          db.close();
+          reject(transaksi.error);
+        };
+      });
+    }
+
+    async function ambilDraf() {
+      const db = await bukaDatabase();
+
+      return new Promise(function (resolve, reject) {
+        const transaksi = db.transaction(
+          NAMA_STORE,
+          "readonly"
+        );
+
+        const request = transaksi
+          .objectStore(NAMA_STORE)
+          .get(ID_DRAF);
+
+        request.onsuccess = function () {
+          resolve(request.result || null);
+        };
+
+        request.onerror = function () {
+          reject(request.error);
+        };
+
+        transaksi.oncomplete = function () {
+          db.close();
+        };
+
+        transaksi.onerror = function () {
+          db.close();
+          reject(transaksi.error);
+        };
+      });
+    }
+
+    async function pulihkanDataDiri() {
+      const draf = await ambilDraf();
+
+      if (!draf || !draf.dataDiri) {
+        return;
+      }
+
+      const data = draf.dataDiri;
+
+      document.getElementById("nama").value =
+        data.nama || "";
+
+      document.getElementById("whatsapp").value =
+        data.whatsapp || "";
+
+      document.getElementById("provinsi").value =
+        data.provinsi || "";
+
+      document.getElementById("kabupaten").value =
+        data.kabupaten || "";
+
+      pekerjaan.value = data.pekerjaan || "";
+
+      pekerjaan.dispatchEvent(new Event("change"));
+
+      pekerjaanLainnya.value =
+        data.pekerjaanLainnya || "";
+
+      const sumber = document.querySelector(
+        'input[name="sumberInformasi"][value="' +
+        CSS.escape(data.sumberInformasi || "") +
+        '"]'
+      );
+
+      if (sumber) {
+        sumber.checked = true;
+        sumber.dispatchEvent(new Event("change"));
+      }
+
+      sumberLainnya.value =
+        data.sumberLainnya || "";
+    }
+
+    // Memulihkan draf saat halaman dibuka kembali.
+    pulihkanDataDiri().catch(function (error) {
+      console.error("Gagal memulihkan draf:", error);
+
+      tampilkanError(
+        "Browser tidak dapat membaca draf tersimpan. " +
+        "Data baru belum tentu tersimpan dengan aman."
+      );
+    });
   </script>
 </body>
 </html>
