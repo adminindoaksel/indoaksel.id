@@ -805,22 +805,21 @@ const previewPesan = document.getElementById("previewPesan");
 const notifikasiSalin = document.getElementById("notifikasiSalin");
 
 tombolSalin.addEventListener("click", async function () {
-  const teksHTML = previewPesan.innerHTML;
-  const teksBiasa = previewPesan.innerText.trim();
+  const teksPesan = `*📢 INFO PELATIHAN NASIONAL BERSERTIFIKAT 40 JP GRATIS !*
+
+*NEXT LEVEL BEKERJA DENGAN AI*
+_Note: TERBUKA UNTUK UMUM !_
+
+🗓️ 18–20 Januari 2027
+⏰ 19.30 WIB – Selesai
+💻 Zoom & YouTube
+🎓 Sertifikat 40 JP
+
+*📝 DAFTAR SEKARANG:*
+https://indoaksel.id/pendaftaran`;
 
   try {
-    const dataSalinan = [
-      new ClipboardItem({
-        "text/html": new Blob([teksHTML], {
-          type: "text/html"
-        }),
-        "text/plain": new Blob([teksBiasa], {
-          type: "text/plain"
-        })
-      })
-    ];
-
-    await navigator.clipboard.write(dataSalinan);
+    await navigator.clipboard.writeText(teksPesan);
 
     notifikasiSalin.textContent = "Pesan tersalin!";
     notifikasiSalin.classList.add("tampil");
