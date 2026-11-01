@@ -9,8 +9,10 @@
  
   <style>
     * {
-      box-sizing: border-box;
-      .registration-banner {
+  box-sizing: border-box;
+}
+
+.registration-banner {
   display: block;
   width: 100%;
   height: auto;
@@ -19,13 +21,18 @@
   margin-bottom: 16px;
 }
 
-      /* =================================
-   TOMBOL SALIN INFORMASI
-================================= */
+/* Kotak bukti berbagi informasi */
+.sharing-panel {
+  border: 2px solid #8ec5f5;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 22px;
+}
+
+/* Tombol salin informasi */
 .btn-salin-informasi {
   display: block;
-  margin-top: 4px;
-  margin-bottom: 16px;
+  margin: 10px auto 16px;
   padding: 11px 20px;
   background-color: #2EAD68;
   color: #ffffff;
@@ -35,15 +42,12 @@
   cursor: pointer;
 }
 
-/* =================================
-   KOTAK PREVIEW INFORMASI
-================================= */
+/* Kotak preview informasi */
 .preview-informasi {
   background-color: #ffffff;
   border: 2px solid #2EAD68;
   border-radius: 10px;
   padding: 14px;
-  margin-top: 0;
   margin-bottom: 16px;
   font-size: 13px;
   font-weight: 400;
@@ -54,7 +58,21 @@
 .preview-informasi em {
   font-size: 13px;
 }
-    }
+
+/* Notifikasi berhasil menyalin */
+.notifikasi-salin {
+  display: none;
+  text-align: center;
+  color: #218838;
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: -8px;
+  margin-bottom: 14px;
+}
+
+.notifikasi-salin.tampil {
+  display: block;
+}
 
     body {
       margin: 0;
@@ -627,7 +645,8 @@ body button {
         </div>
 </div>
 
-        
+
+      <div class="sharing-panel">
 <div class="form-group">
   <span class="group-label">
     BUKTI BERBAGI INFORMASI MELALUI WHATSAPP ATAU TELEGRAM
@@ -646,6 +665,16 @@ body button {
     SALIN INFORMASI
   </button>
 
+<div
+  id="notifikasiSalin"
+  class="notifikasi-salin"
+  role="status"
+  aria-live="polite"
+>
+  Pesan tersalin!
+</div>
+  
+  
   <div class="preview-informasi">
     <div id="previewPesan">
       <strong>📢 INFO PELATIHAN NASIONAL BERSERTIFIKAT 40 JP GRATIS !</strong>
@@ -659,7 +688,7 @@ body button {
 
       <br><br>
 
-      🗓️ 18–20 Januarii 2027<br>
+      🗓️ 18–20 Januari 2027<br>
       ⏰ 19.30 WIB – Selesai<br>
       💻 Zoom & YouTube<br>
       🎓 Sertifikat 40 JP
@@ -748,6 +777,8 @@ body button {
   <div class="help-text">Format JPG/JPEG</div>
 </div>
 
+</div>
+        
 <div class="notice">
   <strong>Perhatian:</strong><br>
   Pastikan setiap gambar merupakan bukti yang sesuai.
@@ -768,6 +799,35 @@ body button {
   <script>
     const form = document.getElementById("formDataDiri");
 
+    // Fungsi tombol salin informasi pelatihan
+const tombolSalin = document.getElementById("tombolSalinInformasi");
+const previewPesan = document.getElementById("previewPesan");
+const notifikasiSalin = document.getElementById("notifikasiSalin");
+
+tombolSalin.addEventListener("click", async function () {
+  const teksPesan = previewPesan.innerText.trim();
+
+  try {
+    await navigator.clipboard.writeText(teksPesan);
+
+    notifikasiSalin.textContent = "Pesan tersalin!";
+    notifikasiSalin.classList.add("tampil");
+
+    setTimeout(function () {
+      notifikasiSalin.classList.remove("tampil");
+    }, 2500);
+
+  } catch (error) {
+    notifikasiSalin.textContent = "Gagal menyalin pesan. Silakan coba lagi.";
+    notifikasiSalin.classList.add("tampil");
+
+    setTimeout(function () {
+      notifikasiSalin.classList.remove("tampil");
+    }, 3000);
+  }
+});
+
+    
     const pekerjaan = document.getElementById("pekerjaan");
     const pekerjaanLainnyaGroup =
       document.getElementById("pekerjaanLainnyaGroup");
