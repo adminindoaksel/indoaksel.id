@@ -805,10 +805,22 @@ const previewPesan = document.getElementById("previewPesan");
 const notifikasiSalin = document.getElementById("notifikasiSalin");
 
 tombolSalin.addEventListener("click", async function () {
-  const teksPesan = previewPesan.innerText.trim();
+  const teksHTML = previewPesan.innerHTML;
+  const teksBiasa = previewPesan.innerText.trim();
 
   try {
-    await navigator.clipboard.writeText(teksPesan);
+    const dataSalinan = [
+      new ClipboardItem({
+        "text/html": new Blob([teksHTML], {
+          type: "text/html"
+        }),
+        "text/plain": new Blob([teksBiasa], {
+          type: "text/plain"
+        })
+      })
+    ];
+
+    await navigator.clipboard.write(dataSalinan);
 
     notifikasiSalin.textContent = "Pesan tersalin!";
     notifikasiSalin.classList.add("tampil");
@@ -826,7 +838,6 @@ tombolSalin.addEventListener("click", async function () {
     }, 3000);
   }
 });
-
     
     const pekerjaan = document.getElementById("pekerjaan");
     const pekerjaanLainnyaGroup =
