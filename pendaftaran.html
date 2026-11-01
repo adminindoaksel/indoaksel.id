@@ -436,40 +436,7 @@ body button {
 }
    
    
-  
-/* Sembunyikan nama file dan keterangan bawaan browser pada kolom upload. */
-
-
-input[type="file"]::file-selector-button {
-  font-size: 14px;
-}
-
-/* Letakkan keterangan status di sebelah kanan tombol Pilih File. */
-.upload-row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px 12px;
-}
-
-.upload-row input[type="file"] {
-  flex: 0 0 auto;
-  max-width: 100%;
-}
-
-.upload-row .status-bukti {
-  margin-top: 0;
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.status-bukti {
-  color: #18794e;
-  font-weight: 700;
-  margin-top: 7px;
-}
-
-</style>
+  </style>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1109,7 +1076,9 @@ form.addEventListener("submit", async function (event) {
     // Tahap ini hanya menguji penyimpanan lokal.
     // Belum berpindah halaman dan belum menghubungi backend.
     alert(
-      "Berhasil menyimpan! " +
+      "Data diri dan kelima bukti WhatsApp sudah tersimpan " +
+      "di browser.\n\n" +
+      "Belum ada data yang dikirim ke server."
     );
 
   } catch (error) {
@@ -1393,7 +1362,7 @@ form.addEventListener("submit", async function (event) {
       }
 
       throw new Error(
-        "Ukuran gambar terlalu besar. " +
+        "Ukuran gambar belum dapat mencapai 5 KB. " +
         "Silakan gunakan gambar yang lebih kecil."
       );
     }
@@ -1464,28 +1433,17 @@ form.addEventListener("submit", async function (event) {
 function siapkanStatusBukti(nomor) {
   const input = document.getElementById("buktiWA" + nomor);
 
-  // Gunakan baris yang sama jika fungsi dipanggil lagi, agar tidak
-  // membuat pembungkus bertingkat.
-  let baris = input.closest(".upload-row");
-  if (!baris) {
-    baris = document.createElement("div");
-    baris.className = "upload-row";
-    input.insertAdjacentElement("beforebegin", baris);
-    baris.appendChild(input);
-  }
-
-  let status = document.getElementById("statusBuktiWA" + nomor);
+  let status = document.getElementById(
+    "statusBuktiWA" + nomor
+  );
 
   if (!status) {
     status = document.createElement("div");
     status.id = "statusBuktiWA" + nomor;
-    status.className = "help-text status-bukti";
+    status.className = "help-text";
     status.setAttribute("aria-live", "polite");
-    status.textContent = "Tidak ada file yang dipilih";
-    status.style.color = "#666";
-    baris.appendChild(status);
-  } else if (status.parentElement !== baris) {
-    baris.appendChild(status);
+
+    input.insertAdjacentElement("afterend", status);
   }
 
   return status;
@@ -1505,7 +1463,11 @@ async function prosesBuktiWhatsApp(nomor, file) {
 
     await simpanBuktiWhatsApp(nomor, hasilKompresi);
 
-    status.textContent = "✓ Bukti " + nomor + " tersimpan";
+    status.textContent =
+      "✓ Bukti " + nomor + " tersimpan sementara (" +
+      (hasilKompresi.size / 1024).toFixed(2) +
+      " KB).";
+
     status.style.color = "#18794e";
   } catch (error) {
     console.error(
@@ -1550,7 +1512,11 @@ async function pulihkanStatusBuktiWhatsApp() {
     if (bukti && bukti.blob) {
       const status = siapkanStatusBukti(nomor);
 
-      status.textContent = "✓ Bukti " + nomor + " tersimpan";
+      status.textContent =
+        "✓ Bukti " + nomor + " sudah tersimpan sebelumnya (" +
+        (bukti.blob.size / 1024).toFixed(2) +
+        " KB).";
+
       status.style.color = "#18794e";
     }
   }
