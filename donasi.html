@@ -122,22 +122,15 @@
   flex-wrap: wrap;
 }
 
-.file-input {
+input[type=file] {
   display: none;
-}
-
-.file-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
 }
 
 .file-button {
   display: inline-block;
   padding: 10px 16px;
-  border: 1px solid #cbd3df;
-  border-radius: 7px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
   background: #fff;
   color: #263238;
   font-family: inherit;
@@ -146,8 +139,11 @@
   cursor: pointer;
 }
 
-.file-button:hover {
-  background: #f2f5f9;
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .file-row .status {
@@ -156,7 +152,10 @@
   color: #667085;
 }
 
-    
+.file-row .status.saved {
+  color: #18794e;
+  font-weight: 700;
+}
 
 
 .status {
@@ -244,22 +243,13 @@
       <label class="choice"><input type="radio" name="jenisBukti" value="tidak-donasi"> <span>Saya dalam kondisi tidak mampu memberikan donasi dan akan mengunggah surat pernyataan.</span></label>
 
       <label class="field-label" for="fileBukti">
-  Bukti Donasi <span class="required">*</span>
+  Bukti Donasi / Surat Pernyataan <span class="required">*</span>
 </label>
 
 <div class="file-row">
-  <label for="fileBukti" class="file-button">Pilih File</label>
-
-  <input
-    id="fileBukti"
-    class="file-input"
-    type="file"
-    accept="image/jpeg,image/png,image/webp,application/pdf"
-  >
-
-  <div id="statusBukti" class="status" aria-live="polite">
-    Tidak ada file yang dipilih
-  </div>
+  <label for="fileBukti" class="file-button" id="btnPilihFile">Pilih File</label>
+  <input id="fileBukti" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
+  <div id="statusBukti" class="status" aria-live="polite">Tidak ada file yang dipilih</div>
 </div>
       
       <div id="pesan" class="message" role="alert"></div>
