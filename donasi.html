@@ -377,13 +377,14 @@ btnPilihFile.addEventListener("click", (event) => {
   try {
     await saveFile(currentFile, type);
   } catch (err) {
-    status.textContent = "Gagal menyimpan bukti";
-    status.className = "status";
-    showMessage(
-      "File belum berhasil disimpan. Silakan coba kembali.",
-      "error"
-    );
-  }
+  console.error("Gagal menyimpan bukti:", err);
+  status.textContent = "Gagal menyimpan bukti";
+  status.className = "status";
+  showMessage(
+    "File belum berhasil disimpan. Silakan coba kembali.",
+    "error"
+  );
+}
 });
 
   document.querySelectorAll('input[name="jenisBukti"]').forEach(radio => {
