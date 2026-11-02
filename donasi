@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donasi Penyelenggaraan Pelatihan | INDOAKSEL</title>
+  <link rel="icon" href="assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;padding:24px 14px 40px;background:#f7f9fc;color:#263238;font-family:Comfortaa,Arial,sans-serif}
+    .container {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.donation-box {
+  background: #fff;
+  border: 1.5px solid #2ead68;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 20px;
+}
+
+.donation-box > strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.donation-box .field-label {
+  margin-top: 20px;
+}
+
+
+.card {
+  background: #fff;
+  padding: 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+}
+    .back{display:inline-block;margin:0 0 16px;color:#1769d2;text-decoration:none;font-weight:700;font-size:14px}
+    .banner{display:block;width:100%;height:auto;border-radius:12px;margin-bottom:18px}
+    .progress-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #287b42;
+  font-weight: 700;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+    .progress-track {
+  display: flex;
+  width: 100%;
+  height: 8px;
+  gap: 6px;
+  background: transparent;
+  border-radius: 20px;
+  overflow: visible;
+  margin-bottom: 18px;
+}
+
+.progress-segment {
+  flex: 1;
+  height: 8px;
+  background: #e4e9ef;
+  border-radius: 20px;
+}
+
+.progress-segment.active {
+  background: #2ead68;
+}
+    .panel{background:linear-gradient(145deg,#fff,#fbfdff);border:3px solid #8ec5f5;border-radius:14px;padding:28px 20px 22px;margin-bottom:18px}
+    h1{font-size:20px;line-height:1.5;color:#1769d2;text-align:center;margin:0 0 22px;font-weight:700}
+    .description{font-size:14px;line-height:1.8;margin:0 0 20px}
+   .account {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0 0 22px;
+}
+
+.account p {
+  margin: 3px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.account .bank {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1769d2;
+  margin-bottom: 5px;
+}
+
+.account-row {
+  display: grid;
+  grid-template-columns: 145px 1fr;
+  column-gap: 8px;
+  align-items: center;
+}
+    .choice {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin: 6px 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+    .choice input{margin-top:4px;accent-color:#1769d2}
+    .field-label{display:block;font-weight:700;font-size:14px;margin:22px 0 9px}
+    .upload-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+input[type=file] {
+  display: none;
+}
+
+.file-button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  background: #fff;
+  color: #263238;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.file-row .status {
+  margin-top: 0;
+  font-size: 13px;
+  color: #667085;
+}
+
+.file-row .status.saved {
+  color: #18794e;
+  font-weight: 700;
+}
+
+
+.status {
+  font-size: 13px;
+  color: #667085;
+}
+
+.status.saved {
+  color: #18794e;
+  font-weight: 700;
+}
+    .note{color:#d32f2f;font-size:12px;line-height:1.7;margin:15px 0 0}
+    .actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .button{display:block;width:100%;border:0;border-radius:9px;background:#2ead68;color:#fff;text-align:center;text-decoration:none;padding:15px 22px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .18s}
+    .button:hover{background:#218838}
+    .button:disabled{opacity:.65;cursor:not-allowed}
+    .message{display:none;margin-top:15px;padding:12px 14px;border-radius:8px;font-size:13px;line-height:1.6}
+    .message.error{display:block;background:#fff1f0;color:#b42318;border:1px solid #fecdca}
+    .message.info{display:block;background:#eff8ff;color:#175cd3;border:1px solid #b2ddff}
+    @media(max-width:520px) {
+  body {
+    padding: 16px 10px 30px;
+  }
+
+  .card {
+    padding: 20px 16px;
+  }
+
+  .panel {
+    padding: 23px 15px 18px;
+  }
+
+  h1 {
+    font-size: 17px;
+  }
+
+  .description {
+    font-size: 13px;
+  }
+}
+
+.required {
+  color: #d93025;
+}
+
+  </style>
+</head>
+<body>
+  <main class="container">
+  <div class="card">
+    <a class="back" href="pendaftaran.html">← Kembali</a>
+    <img class="banner" src="assets/banner-pendaftaran.png" alt="Banner Pendaftaran Pelatihan Nasional INDOAKSEL">
+    <div class="progress-info">
+  <span>Proses Pendaftaran</span>
+  <span>Langkah 2 dari 3</span>
+</div>
+    <div class="progress-track">
+  <div class="progress-segment active"></div>
+  <div class="progress-segment active"></div>
+  <div class="progress-segment"></div>
+</div>
+
+    <section class="panel">
+      <h1>DONASI PENYELENGGARAAN<br>PELATIHAN BERSERTIFIKAT</h1>
+      <p class="description">Untuk mendukung kelancaran penyelenggaraan Pelatihan Nasional Bersertifikat ini, mohon peserta dapat memberikan donasi secara sukarela dengan nominal seikhlasnya melalui rekening berikut:</p>
+
+      <div class="account">
+  <p class="bank">BANK BRI</p>
+
+  <p class="account-row">
+    <strong>Nomor Rekening </strong>
+    <span>: 690301011560532</span>
+  </p>
+
+  <p class="account-row">
+    <strong>Atas Nama </strong>
+    <span>: Murti Handayani</span>
+  </p>
+</div>
+
+
+<div class="donation-box">
+      <strong style="font-size:14px">Pilih salah satu:</strong>
+      <label class="choice"><input type="radio" name="jenisBukti" value="donasi"> <span>Saya berkenan memberikan donasi.</span></label>
+      <label class="choice"><input type="radio" name="jenisBukti" value="tidak-donasi"> <span>Saya dalam kondisi tidak mampu memberikan donasi dan akan mengunggah surat pernyataan.</span></label>
+
+      <label class="field-label" for="fileBukti">
+  Bukti Donasi / Surat Pernyataan <span class="required">*</span>
+</label>
+
+<div class="file-row">
+  <label for="fileBukti" class="file-button" id="btnPilihFile">Pilih File</label>
+  <input id="fileBukti" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
+  <div id="statusBukti" class="status" aria-live="polite">Tidak ada file yang dipilih</div>
+</div>
+      
+      <div id="pesan" class="message" role="alert"></div>
+</div>
+
+    </section>
+
+    <div class="actions">
+
+
+      <button id="btnDaftar" class="button" type="button">KLIK DAFTAR</button>
+    </div>
+  </div>
+  </main>
+
+<script>
+(() => {
+  const DB_NAME = "indoaksel_registration";
+  const STORE = "drafts";
+  const DRAFT_KEY = "registrationDraft";
+
+  const fileInput = document.getElementById("fileBukti");
+const btnPilihFile = document.getElementById("btnPilihFile");
+
+btnPilihFile.addEventListener("click", (event) => {
+  if (!selectedType()) {
+    event.preventDefault();
+    showMessage(
+      "Silakan pilih terlebih dahulu apakah Anda akan memberikan donasi atau membuat surat pernyataan tidak berkenan memberikan donasi.",
+      "error"
+    );
+  }
+});
+
+  const status = document.getElementById("statusBukti");
+  const message = document.getElementById("pesan");
+  const button = document.getElementById("btnDaftar");
+  let savedDraft = null;
+  let currentFile = null;
+
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open(DB_NAME, 1);
+      req.onupgradeneeded = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains(STORE)) db.createObjectStore(STORE);
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror = () => reject(req.error);
+    });
+  }
+
+  async function readDraft() {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readonly");
+      const req = tx.objectStore(STORE).get(DRAFT_KEY);
+      req.onsuccess = () => { resolve(req.result || null); db.close(); };
+      req.onerror = () => { reject(req.error); db.close(); };
+    });
+  }
+
+  async function writeDraft(draft) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction(STORE, "readwrite");
+      tx.objectStore(STORE).put(draft, DRAFT_KEY);
+      tx.oncomplete = () => { db.close(); resolve(); };
+      tx.onerror = () => { db.close(); reject(tx.error); };
+      tx.onabort = () => { db.close(); reject(tx.error); };
+    });
+  }
+
+  function showMessage(text, type) {
+    message.textContent = text;
+    message.className = "message " + type;
+  }
+
+  function selectedType() {
+    return document.querySelector('input[name="jenisBukti"]:checked')?.value || "";
+  }
+
+  function showSaved() {
+    status.textContent = "✓ Bukti tersimpan";
+    status.className = "status saved";
+  }
+
+  async function saveFile(file, type) {
+    const draft = savedDraft || {};
+    draft.buktiDonasi = type === "donasi" ? file : null;
+    draft.pernyataanTidakDonasi = type === "tidak-donasi" ? file : null;
+    draft.jenisBuktiDonasi = type;
+    draft.tahapTerakhir = "donasi";
+    draft.diperbaruiPada = new Date().toISOString();
+    await writeDraft(draft);
+    savedDraft = draft;
+    showSaved();
+  }
+
+  fileInput.addEventListener("change", async () => {
+  message.className = "message";
+  currentFile = fileInput.files[0] || null;
+
+  if (!currentFile) {
+    status.textContent = "Tidak ada file yang dipilih";
+    status.className = "status";
+    return;
+  }
+
+  const type = selectedType();
+
+  if (!type) {
+    fileInput.value = "";
+    currentFile = null;
+    showMessage(
+      "Pilih terlebih dahulu jenis bukti yang akan diunggah.",
+      "error"
+    );
+    return;
+  }
+
+  status.textContent = "Menyimpan bukti...";
+  status.className = "status";
+
+  try {
+    await saveFile(currentFile, type);
+  } catch (err) {
+    status.textContent = "Gagal menyimpan bukti";
+    status.className = "status";
+    showMessage(
+      "File belum berhasil disimpan. Silakan coba kembali.",
+      "error"
+    );
+  }
+});
+
+  document.querySelectorAll('input[name="jenisBukti"]').forEach(radio => {
+    radio.addEventListener("change", async () => {
+      message.className = "message";
+      if (currentFile) {
+        try { await saveFile(currentFile, radio.value); }
+        catch { showMessage("Perubahan bukti belum berhasil disimpan. Silakan pilih ulang file.", "error"); }
+      } else if (savedDraft && (savedDraft.buktiDonasi || savedDraft.pernyataanTidakDonasi)) {
+        const previous = savedDraft.buktiDonasi || savedDraft.pernyataanTidakDonasi;
+        try { await saveFile(previous, radio.value); }
+        catch { showMessage("Perubahan jenis bukti belum berhasil disimpan.", "error"); }
+      }
+    });
+  });
+
+  button.addEventListener("click", async () => {
+    const type = selectedType();
+    const hasProof = type === "donasi" ? !!savedDraft?.buktiDonasi : type === "tidak-donasi" ? !!savedDraft?.pernyataanTidakDonasi : false;
+    if (!type || !hasProof) {
+      showMessage("Silakan lengkapi bukti donasi terlebih dahulu.", "error");
+      return;
+    }
+    showMessage("Bukti telah tersimpan pada perangkat ini. Pengiriman pendaftaran ke server belum diaktifkan karena konfigurasi backend belum tersedia.", "info");
+  });
+
+  (async () => {
+    try {
+      savedDraft = await readDraft();
+      if (savedDraft?.jenisBuktiDonasi) {
+        const radio = document.querySelector(`input[name="jenisBukti"][value="${savedDraft.jenisBuktiDonasi}"]`);
+        if (radio) radio.checked = true;
+      } else if (savedDraft?.buktiDonasi) {
+        document.querySelector('input[name="jenisBukti"][value="donasi"]').checked = true;
+      } else if (savedDraft?.pernyataanTidakDonasi) {
+        document.querySelector('input[name="jenisBukti"][value="tidak-donasi"]').checked = true;
+      }
+      if (savedDraft?.buktiDonasi || savedDraft?.pernyataanTidakDonasi) showSaved();
+    } catch (err) {
+      showMessage("Penyimpanan lokal tidak dapat dibuka pada browser ini. Pastikan browser mengizinkan IndexedDB.", "error");
+    }
+  })();
+})();
+</script>
+</body>
+</html>
