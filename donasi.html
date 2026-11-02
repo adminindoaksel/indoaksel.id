@@ -128,19 +128,15 @@ input[type=file] {
 
 .file-button {
   display: inline-block;
-  padding: 3px 8px;
-  border: 1px solid #767676;
-  border-radius: 3px;
-  background: #efefef;
-  color: #222;
-  font-family: Arial, sans-serif;
+  padding: 10px 16px;
+  border: 1px solid #cbd5df;
+  border-radius: 8px;
+  background: #fff;
+  color: #263238;
+  font-family: inherit;
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 700;
   cursor: pointer;
-}
-
-.file-button:hover {
-  background: #f2f5f9;
 }
 
 .file-row {
@@ -282,7 +278,7 @@ btnPilihFile.addEventListener("click", (event) => {
   if (!selectedType()) {
     event.preventDefault();
     showMessage(
-      "Silakan pilih terlebih dahulu apakah Anda akan memberikan donasi atau membuat surat pernyataan dalam kondisi tidak mampu memberikan donasi.",
+      "Silakan pilih terlebih dahulu apakah Anda akan memberikan donasi atau membuat surat pernyataan tidak berkenan memberikan donasi.",
       "error"
     );
   }
