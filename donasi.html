@@ -122,40 +122,20 @@
   flex-wrap: wrap;
 }
 
-input[type=file] {
-  display: none;
-}
-
-.file-button {
-  display: inline-block;
-  padding: 10px 16px;
-  border: 1px solid #cbd5df;
-  border-radius: 8px;
+input[type="file"] {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 12px;
+  border: 1px solid #cbd3df;
+  border-radius: 7px;
   background: #fff;
-  color: #263238;
+  color: #222;
+  font-size: 15px;
   font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
 }
 
-.file-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.file-row .status {
-  margin-top: 0;
-  font-size: 13px;
-  color: #667085;
-}
-
-.file-row .status.saved {
-  color: #18794e;
-  font-weight: 700;
-}
+    
 
 
 .status {
@@ -246,10 +226,13 @@ input[type=file] {
   Bukti Donasi / Surat Pernyataan <span class="required">*</span>
 </label>
 
-<div class="file-row">
-  <label for="fileBukti" class="file-button" id="btnPilihFile">Pilih File</label>
-  <input id="fileBukti" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
-  <div id="statusBukti" class="status" aria-live="polite">Tidak ada file yang dipilih</div>
+<input
+  id="fileBukti"
+  type="file"
+  accept="image/jpeg,image/png,image/webp,application/pdf"
+>
+<div id="statusBukti" class="status" aria-live="polite">
+  Tidak ada file yang dipilih
 </div>
       
       <div id="pesan" class="message" role="alert"></div>
