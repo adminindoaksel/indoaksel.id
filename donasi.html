@@ -173,7 +173,10 @@ input[type=file] {
   font-weight: 700;
 }
     .note{color:#d32f2f;font-size:12px;line-height:1.7;margin:15px 0 0}
-    .actions{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .actions {
+  display: flex;
+  justify-content: flex-end;
+}
     .button{display:block;width:100%;border:0;border-radius:9px;background:#2ead68;color:#fff;text-align:center;text-decoration:none;padding:15px 22px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:background .18s}
     .button:hover{background:#218838}
     .button:disabled{opacity:.65;cursor:not-allowed}
@@ -263,10 +266,8 @@ input[type=file] {
     </section>
 
     <div class="actions">
-
-
-      <button id="btnDaftar" class="button" type="button">KLIK DAFTAR</button>
-    </div>
+  <button id="btnDaftar" class="button" type="button">Berikutnya →</button>
+</div>
   </div>
   </main>
 
@@ -436,8 +437,7 @@ btnPilihFile.addEventListener("click", (event) => {
       showMessage("Silakan lengkapi bukti donasi terlebih dahulu.", "error");
       return;
     }
-    showMessage("Bukti telah tersimpan pada perangkat ini. Pengiriman pendaftaran ke server belum diaktifkan karena konfigurasi backend belum tersedia.", "info");
-  });
+    window.location.href = "https://adminindoaksel.github.io/indoaksel.id/ikuti-saluran-whatsapp.html";
 
   (async () => {
     try {
