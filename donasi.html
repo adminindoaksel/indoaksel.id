@@ -431,30 +431,43 @@ btnPilihFile.addEventListener("click", (event) => {
   });
 
   button.addEventListener("click", async () => {
-    const type = selectedType();
-    const hasProof = type === "donasi" ? !!savedDraft?.buktiDonasi : type === "tidak-donasi" ? !!savedDraft?.pernyataanTidakDonasi : false;
-    if (!type || !hasProof) {
-      showMessage("Silakan lengkapi bukti donasi terlebih dahulu.", "error");
-      return;
-    }
-    window.location.href = "https://adminindoaksel.github.io/indoaksel.id/ikuti-saluran-whatsapp.html";
+  const type = selectedType();
+  const hasProof = type === "donasi"
+    ? !!savedDraft?.buktiDonasi
+    : type === "tidak-donasi"
+      ? !!savedDraft?.pernyataanTidakDonasi
+      : false;
 
-  (async () => {
-    try {
-      savedDraft = await readDraft();
-      if (savedDraft?.jenisBuktiDonasi) {
-        const radio = document.querySelector(`input[name="jenisBukti"][value="${savedDraft.jenisBuktiDonasi}"]`);
-        if (radio) radio.checked = true;
-      } else if (savedDraft?.buktiDonasi) {
-        document.querySelector('input[name="jenisBukti"][value="donasi"]').checked = true;
-      } else if (savedDraft?.pernyataanTidakDonasi) {
-        document.querySelector('input[name="jenisBukti"][value="tidak-donasi"]').checked = true;
-      }
-      if (savedDraft?.buktiDonasi || savedDraft?.pernyataanTidakDonasi) showSaved();
-    } catch (err) {
-      showMessage("Penyimpanan lokal tidak dapat dibuka pada browser ini. Pastikan browser mengizinkan IndexedDB.", "error");
+  if (!type || !hasProof) {
+    showMessage("Silakan lengkapi bukti donasi terlebih dahulu.", "error");
+    return;
+  }
+
+  window.location.href = "https://adminindoaksel.github.io/indoaksel.id/ikuti-saluran-whatsapp.html";
+});
+
+// Inisialisasi data dari IndexedDB.
+(async () => {
+  try {
+    savedDraft = await readDraft();
+
+    if (savedDraft?.jenisBuktiDonasi) {
+      const radio = document.querySelector(
+        `input[name="jenisBukti"][value="${savedDraft.jenisBuktiDonasi}"]`
+      );
+      if (radio) radio.checked = true;
+    } else if (savedDraft?.buktiDonasi) {
+      document.querySelector('input[name="jenisBukti"][value="donasi"]').checked = true;
+    } else if (savedDraft?.pernyataanTidakDonasi) {
+      document.querySelector('input[name="jenisBukti"][value="tidak-donasi"]').checked = true;
     }
-  })();
+
+    if (savedDraft?.buktiDonasi || savedDraft?.pernyataanTidakDonasi) showSaved();
+
+  } catch (err) {
+    showMessage("Penyimpanan lokal tidak dapat dibuka pada browser ini. Pastikan browser mengizinkan IndexedDB.", "error");
+  }
+})();
 })();
 </script>
 </body>
