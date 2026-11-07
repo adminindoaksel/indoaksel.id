@@ -40,6 +40,86 @@
   margin-bottom: 22px;
 }
 
+/* IKON BERHASIL */
+
+.success-icon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: #e8f7ef;
+  color: #2ead68;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+/* JUDUL */
+
+.success-title {
+  color: #287bce;
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0 0 16px;
+}
+
+/* GARIS PEMISAH */
+
+.title-divider {
+  width: 70px;
+  height: 3px;
+  background: #8ec5f5;
+  border-radius: 10px;
+  margin: 0 auto 22px;
+}
+
+/* KOTAK INFORMASI PELATIHAN */
+.info-box {
+  background: #f0f7ff;
+  border: 1px solid #d8eaff;
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+/* AJAKAN BERGABUNG KE GRUP WHATSAPP */
+.whatsapp-invitation {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.whatsapp-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px;
+  border-radius: 50%;
+  background: #e8f7ef;
+  color: #25a85a;
+  font-size: 25px;
+  font-weight: 700;
+}
+
+.whatsapp-invitation p {
+  color: #40566d;
+  font-size: 13px;
+  line-height: 1.7;
+  margin: 0;
+}
+    
+.info-box p {
+  color: #40566d;
+  font-size: 13px;
+  line-height: 1.8;
+  text-align: center;
+  margin: 0;
+}
+    
 .header-logos img {
   height: 30px;
   max-width: 100px;
@@ -116,28 +196,29 @@
 
     /* TOMBOL GRUP WHATSAPP */
 
-    .whatsapp-button {
-      display: table;
-      width: auto;
-      margin: 0 auto;
-      padding: 10px 22px;
-      border: none;
-      border-radius: 8px;
-      background: #2ead68;
-      color: #fff;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background .18s;
-    }
+    /* TOMBOL GRUP WHATSAPP */
+.whatsapp-button {
+  display: table;
+  width: fit-content;
+  margin: 0 auto;
+  padding: 11px 26px;
+  background: #25a85a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(37, 168, 90, 0.22);
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-    .whatsapp-button:hover {
-      background: #239456;
-    }
-
+.whatsapp-button:hover {
+  background: #208f4e;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 168, 90, 0.28);
+}
+    
     /* TAMPILAN HP */
 
     @media(max-width:520px) {
@@ -184,23 +265,37 @@
 
       <!-- JUDUL PENDAFTARAN BERHASIL -->
 
-      <h1 class="success-title">
-        SELAMAT, PENDAFTARAN BERHASIL !
-      </h1>
+      <!-- IKON BERHASIL -->
+<div class="success-icon">
+  ✓
+</div>
+
+<!-- JUDUL -->
+<h1 class="success-title">
+  SELAMAT, PENDAFTARAN BERHASIL!
+</h1>
+
+<!-- GARIS PEMISAH -->
+<div class="title-divider"></div>
 
       <!-- INFORMASI PELATIHAN -->
 
-      <p class="section-description">
-        Pelatihan Online akan dilaksanakan melalui Zoom dan YouTube.
-        Link Pelatihan Online akan kami bagikan melalui Grup WhatsApp
-        menjelang kegiatan dimulai pada tanggal 18 Januari 2027.
-      </p>
+      <!-- INFORMASI PELAKSANAAN PELATIHAN -->
+<div class="info-box">
+  <p>
+    Pelatihan Online akan dilaksanakan melalui Zoom dan YouTube.
+    Link Pelatihan Online akan kami bagikan melalui Grup WhatsApp
+    menjelang kegiatan dimulai pada tanggal 18 Januari 2027.
+  </p>
+</div>
 
       <!-- AJAKAN BERGABUNG -->
 
-      <p class="section-description">
-        📌 Silakan bergabung ke Grup WhatsApp melalui tombol berikut.
-      </p>
+      <!-- AJAKAN BERGABUNG KE GRUP WHATSAPP -->
+<div class="whatsapp-invitation">
+  <div class="whatsapp-icon">☏</div>
+  <p>Silakan bergabung ke Grup WhatsApp melalui tombol berikut.</p>
+</div>
 
       <!-- TOMBOL GRUP WHATSAPP -->
 
