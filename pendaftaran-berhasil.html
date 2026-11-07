@@ -24,14 +24,28 @@
       font-family: Comfortaa, Arial, sans-serif;
     }
 
-.top-row {
+.back-button {
+  display: inline-block;
+  color: #287bce;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  margin-bottom: 16px;
+}
+
+.header-logos {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
   margin-bottom: 22px;
 }
 
+.header-logos img {
+  height: 30px;
+  max-width: 100px;
+  object-fit: contain;
+}
+    
 .back-button {
   display: inline-block;
   color: #287bce;
@@ -153,23 +167,20 @@
 
     <div class="card">
 
-      <!-- TOMBOL KEMBALI -->
+   <!-- TOMBOL KEMBALI -->
+<a
+  href="ikuti-saluran-whatsapp.html"
+  class="back-button"
+>
+  ← Kembali
+</a>
 
-      <div class="top-row">
-
-  <a
-    href="ikuti-saluran-whatsapp.html"
-    class="back-button"
-  >
-    ← Kembali
-  </a>
-
-  <div class="header-logos">
-    <img src="assets/logo-indoaksel.png" alt="INDOAKSEL">
-    <img src="assets/logo-pt-indoaksel.png" alt="PT INDOAKSEL">
-  </div>
-
+<!-- BARIS LOGO -->
+<div class="header-logos">
+  <img src="assets/logo-indoaksel.png" alt="INDOAKSEL">
+  <img src="assets/logo-pt-indoaksel.png" alt="PT INDOAKSEL">
 </div>
+    
 
       <!-- JUDUL PENDAFTARAN BERHASIL -->
 
