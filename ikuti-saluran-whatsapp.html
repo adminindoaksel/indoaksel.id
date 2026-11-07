@@ -17,6 +17,11 @@
       box-sizing: border-box;
     }
 
+#btnDaftar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+    
     body {
       margin: 0;
       padding: 24px 14px 40px;
@@ -513,17 +518,16 @@
 
     <!-- TOMBOL DAFTAR -->
 
-    <div class="actions">
+<div class="actions">
 
-      <button
-        type="button"
-        id="btnDaftar"
-        class="button"
-      >
-        KLIK DAFTAR
-      </button>
-
-    </div>
+  <button
+    type="button"
+    id="btnDaftar"
+    class="button"
+    disabled
+  >
+    KLIK DAFTAR
+  </button>
 
 </div>
   </main>
@@ -557,6 +561,19 @@
     });
 
   </script>
+<script>
+  const jadwal = document.getElementById("konfirmasi-jadwal");
+  const whatsapp = document.getElementById("konfirmasi");
+  const tombol = document.getElementById("btnDaftar");
 
+  function periksaKonfirmasi() {
+    tombol.disabled = !(jadwal.checked && whatsapp.checked);
+  }
+
+  jadwal.addEventListener("change", periksaKonfirmasi);
+  whatsapp.addEventListener("change", periksaKonfirmasi);
+
+  periksaKonfirmasi();
+</script>
 </body>
 </html>
