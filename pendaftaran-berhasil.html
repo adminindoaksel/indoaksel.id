@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pendaftaran Berhasil | INDOAKSEL</title>
+
+    <link rel="icon" href="assets/favicon.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 24px 14px 40px;
+            background: #f7f9fc;
+            color: #263238;
+            font-family: Comfortaa, Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: #fff;
+            padding: 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.06);
+        }
+
+        /* TOMBOL KEMBALI */
+
+        .back-button {
+            display: inline-block;
+            color: #287bce;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            white-space: nowrap;
+            margin-bottom: 22px;
+        }
+
+        .back-button:hover {
+            text-decoration: underline;
+        }
+
+        /* BARIS LOGO */
+
+        .header-logos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 22px;
+        }
+
+        .header-logos img {
+            height: 30px;
+            max-width: 90px;
+            object-fit: contain;
+        }
+
+        /* IKON BERHASIL */
+
+        .success-icon {
+            width: 54px;
+            height: 54px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: #e8f7ef;
+            color: #2ead68;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        /* JUDUL */
+
+        .success-title {
+            color: #287bce;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin: 0 0 16px;
+        }
+
+        .title-divider {
+            width: 70px;
+            height: 3px;
+            background: #8ec5f5;
+            border-radius: 10px;
+            margin: 0 auto 22px;
+        }
+
+        /* AJAKAN BERGABUNG */
+
+        .whatsapp-invitation {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .whatsapp-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px;
+            border-radius: 50%;
+            background: #e8f7ef;
+            color: #25a85a;
+        }
+
+        .whatsapp-icon svg {
+            width: 27px;
+            height: 27px;
+        }
+
+        .whatsapp-invitation p {
+            color: #40566d;
+            font-size: 13px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* KOTAK INFORMASI */
+
+        .info-box {
+            background: #f0f7ff;
+            border: 1px solid #d8eaff;
+            border-radius: 10px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+        }
+
+        .info-box p {
+            color: #40566d;
+            font-size: 13px;
+            line-height: 1.8;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* STATUS */
+
+        #status {
+            color: #40566d;
+            font-size: 13px;
+            line-height: 1.8;
+            text-align: center;
+            margin: 0;
+        }
+
+        /* LOADER */
+
+        .loader {
+            width: 32px;
+            height: 32px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #25a85a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 16px auto 0;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* TOMBOL GRUP WHATSAPP */
+
+        .whatsapp-button {
+            display: table;
+            width: fit-content;
+            margin: 18px auto 0;
+            padding: 11px 26px;
+            background: #25a85a;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(37, 168, 90, 0.22);
+            transition: background 0.2s ease,
+                        transform 0.2s ease,
+                        box-shadow 0.2s ease;
+        }
+
+        .whatsapp-button:hover {
+            background: #208f4e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 14px rgba(37, 168, 90, 0.28);
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* TAMPILAN HP */
+
+        @media(max-width:520px) {
+
+            body {
+                padding: 16px 10px 15px;
+            }
+
+            .container {
+                max-width: 100%;
+            }
+
+            .card {
+                padding: 20px 16px;
+            }
+
+            .header-logos img {
+                height: 25px;
+                max-width: 75px;
+            }
+
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <main class="container">
+
+        <div class="card">
+
+            <!-- TOMBOL KEMBALI -->
+
+            <a href="ikuti-saluran-whatsapp.html" class="back-button">
+                ← Kembali
+            </a>
+
+            <!-- LOGO -->
+
+            <div class="header-logos">
+
+                <img src="assets/logo-indoaksel.png" alt="INDOAKSEL">
+
+                <img src="assets/logo-pt-indoaksel.png" alt="PT INDOAKSEL">
+
+            </div>
+
+            <!-- IKON BERHASIL -->
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <!-- JUDUL -->
+
+            <h1 class="success-title">
+                SELAMAT, PENDAFTARAN BERHASIL!
+            </h1>
+
+            <!-- GARIS PEMISAH -->
+
+            <div class="title-divider"></div>
+
+            <!-- AJAKAN BERGABUNG -->
+
+            <div class="whatsapp-invitation">
+
+                <div class="whatsapp-icon">
+
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+                        <path fill="currentColor" d="M12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.46 1.33 4.97L2.05 22l5.26-1.38a9.9 9.9 0 0 0 4.73 1.2h.01c5.46 0 9.9-4.44 9.9-9.9A9.9 9.9 0 0 0 12.04 2zm0 18.15h-.01a8.2 8.2 0 0 1-4.17-1.14l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 1 1 6.97 3.85zm4.5-6.14c-.25-.13-1.48-.73-1.71-.81-.23-.08-.4-.13-.57.13-.17.25-.65.81-.8.98-.15.17-.3.19-.55.06-.25-.13-1.06-.39-2.02-1.24-.75-.67-1.25-1.5-1.4-1.75-.15-.25-.02-.39.11-.52.12-.12.25-.3.38-.44.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.57-1.37-.78-1.88-.2-.5-.41-.43-.57-.44h-.49c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.44 1.03 2.61c.13.17 1.77 2.7 4.29 3.78.6.26 1.07.42 1.44.54.6.19 1.15.16 1.58.1.48-.07 1.48-.61 1.69-1.2.21-.59.21-1.1.15-1.2-.06-.1-.23-.17-.48-.29z"/>
+
+                    </svg>
+
+                </div>
+
+                <p>
+                    Selamat Bergabung di Grup WhatsApp.
+                </p>
+
+            </div>
+
+            <!-- INFORMASI GRUP -->
+
+            <div class="info-box">
+
+                <p id="status">
+                    Sedang menghubungkan ke Grup WhatsApp...
+                </p>
+
+                <div class="loader" id="loader"></div>
+
+                <!-- TOMBOL BERGABUNG -->
+
+                <a
+                    id="whatsappButton"
+                    class="whatsapp-button"
+                    href="#"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    hidden
+                >
+                    KLIK GRUP WA
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- FOOTER -->
+
+        <div class="footer">
+            INDOAKSEL &copy; Pelatihan Nasional
+        </div>
+
+    </main>
+
+
+    <!-- JAVASCRIPT -->
+
+    <script>
+
+        const API_URL = "https://script.google.com/macros/s/AKfycbxEjXWRsp9bguw-rjiVDD6wh4ifu2mzs8G53D6lxtPR8qzjxljX3zY6wHrjmy5Vcbrx/exec";
+
+
+        async function mulaiRedirect() {
+
+            const status = document.getElementById("status");
+
+            const loader = document.getElementById("loader");
+
+            const whatsappButton = document.getElementById("whatsappButton");
+
+
+            try {
+
+                const response = await fetch(API_URL);
+
+                if (!response.ok) {
+                    throw new Error("Server tidak merespons dengan baik.");
+                }
+
+                const data = await response.json();
+
+
+                if (data.success && data.url) {
+
+                    // Tampilkan nama grup
+
+                    status.textContent = "Grup tersedia: " + data.nama;
+
+                    // Hentikan loader
+
+                    loader.style.display = "none";
+
+                    // Tampilkan tombol grup WA
+
+                    whatsappButton.href = data.url;
+
+                    whatsappButton.hidden = false;
+
+                    // Alihkan otomatis setelah 2 detik
+
+                    setTimeout(() => {
+
+                        window.location.href = data.url;
+
+                    }, 2000);
+
+
+                } else {
+
+                    status.textContent = data.message || "Seluruh grup sedang penuh.";
+
+                    loader.style.display = "none";
+
+                }
+
+
+            } catch (error) {
+
+                status.textContent =
+                    "Terjadi kendala saat menghubungkan ke server. Silakan coba kembali.";
+
+                loader.style.display = "none";
+
+                console.error("Kesalahan:", error);
+
+            }
+
+        }
+
+
+        // Jalankan alokasi grup otomatis
+
+        mulaiRedirect();
+
+    </script>
+
+</body>
+</html>
