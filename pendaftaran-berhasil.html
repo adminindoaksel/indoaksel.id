@@ -189,22 +189,38 @@
         /* TOMBOL GRUP WHATSAPP */
 
         .whatsapp-button {
-            display: table;
-            width: fit-content;
-            margin: 18px auto 0;
-            padding: 11px 26px;
-            background: #25a85a;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 700;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(37, 168, 90, 0.22);
-            transition: background 0.2s ease,
-                        transform 0.2s ease,
-                        box-shadow 0.2s ease;
-        }
+    display: none;
+    width: 100%;
+    padding: 13px 20px;
+    background: #287bce;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: not-allowed;
+    opacity: 1;
+}
+
+.loading-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+        
 
         .whatsapp-button:hover {
             background: #208f4e;
@@ -317,16 +333,10 @@
 
                 <!-- TOMBOL BERGABUNG -->
 
-                <a
-                    id="whatsappButton"
-                    class="whatsapp-button"
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    hidden
-                >
-                    KLIK GRUP WA
-                </a>
+                <button id="whatsappButton" class="whatsapp-button" type="button" disabled>
+    <span>Mohon Tunggu...</span>
+    <span class="loading-spinner"></span>
+</button>
 
             </div>
 
@@ -355,6 +365,8 @@
             const loader = document.getElementById("loader");
 
             const whatsappButton = document.getElementById("whatsappButton");
+            whatsappButton.style.display = "flex";
+            whatsappButton.disabled = true;
 
 
             try {
@@ -378,11 +390,10 @@
 
                     loader.style.display = "none";
 
-                    // Tampilkan tombol grup WA
-
-                    whatsappButton.href = data.url;
+                    // Tombol tetap pasif selama proses pengalihan
 
                     whatsappButton.hidden = false;
+                    whatsappButton.disabled = true;
 
                     // Alihkan otomatis setelah 2 detik
 
@@ -398,6 +409,7 @@
                     status.textContent = data.message || "Seluruh grup sedang penuh.";
 
                     loader.style.display = "none";
+                    whatsappButton.style.display = "none";
 
                 }
 
@@ -408,7 +420,7 @@
                     "Terjadi kendala saat menghubungkan ke server. Silakan coba kembali.";
 
                 loader.style.display = "none";
-
+                whatsappButton.style.display = "none";
                 console.error("Kesalahan:", error);
 
             }
